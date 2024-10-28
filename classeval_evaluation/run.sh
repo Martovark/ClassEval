@@ -1,5 +1,9 @@
 #!/bin/bash
+
+eval_file=$1
 folder_path="../output/model_output"
+
+mv "../dump/cache/${eval_file}.jsonl" "${folder_path}"
 
 for file_path in "$folder_path"/*; do
     echo "$file_path"
@@ -12,10 +16,8 @@ for file_path in "$folder_path"/*; do
         IFS="_" read -ra elements <<< "$file_name_no_extension"
         last_element="${elements[-1]}"
 
-        if [[ $last_element == *"greedy"* ]]; then
-            python evaluation.py --source_file_name "$file_name_no_extension" --eval_data ClassEval_data --greedy 1
-        else
-            python evaluation.py --source_file_name "$file_name_no_extension" --eval_data ClassEval_data --greedy 0
-        fi
+        python evaluation.py --source_file_name "$file_name_no_extension" --eval_data ClassEval_data --eval_file $eval_file --greedy 1 --custom
     fi
 done
+
+mv "${folder_path}/${eval_file}.jsonl" "../dump/cache/" 

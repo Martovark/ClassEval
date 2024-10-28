@@ -108,7 +108,12 @@ class AutoTest:
         code_list = {}
 
         with open(file_path, 'r', encoding="utf-8") as f:
-            data = json.load(f)
+            if file_path.endswith("jsonl"):
+                data = []
+                for line in f:
+                    data.append(json.loads(line, object_hook=None))
+            else:
+                data = json.load(f)
 
         for item in data:
             code_list[item['task_id']] = []
