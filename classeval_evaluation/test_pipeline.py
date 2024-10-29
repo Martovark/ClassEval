@@ -178,15 +178,16 @@ class AutoTest:
             self.gen_py_file(task_id, task_code_list, test_code)
 
         # run unit test
-        for task_id in code_list:
+        for idx, task_id in enumerate(code_list):
             task_code_list = code_list[task_id]
             try:
                 result = self.test(len(task_code_list), task_id,
                                    self.eval_data[task_id]['test_classes'], model_name)
                 result_dict[task_id] = result
+                print(f"test in try {idx}")
             except:
                 continue
-
+            
         # save result
         self.save_result(model_name, result_dict, "class")
         time.sleep(5)
