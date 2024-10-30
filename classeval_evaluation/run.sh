@@ -4,6 +4,9 @@ eval_file=$1
 folder_path="../output/model_output"
 
 source ../proj_env/bin/activate
+mv "dump" "../"
+mkdir -p $folder_path
+
 mv "../dump/cache/${eval_file}.jsonl" "${folder_path}"
 
 for file_path in "$folder_path"/*; do
