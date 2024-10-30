@@ -25,3 +25,4 @@ for file_path in "$folder_path"/*; do
 done
 
 mv "${folder_path}/${eval_file}.jsonl" "../dump/cache/" 
+mv "../dump" "./"
