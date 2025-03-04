@@ -3,7 +3,7 @@
 eval_file=$1
 dump=$2
 
-echo "Dump folder ${dump}"
+echo "\n\nfile_name: $file_name, dump: $dump\n\n"
 
 folder_path="../output/model_output"
 
