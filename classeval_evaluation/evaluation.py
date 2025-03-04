@@ -4,7 +4,7 @@ import os
 from test_pipeline import AutoTest
 from path_util import PathUtil
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--source_file_name",
@@ -26,13 +26,16 @@ if __name__ == '__main__':
     parser.add_argument(
         "--eval_data",
         type=str,
-        default='ClassEval_data',
+        default="ClassEval_data",
         help="ClassEval data",
     )
     parser.add_argument(
-        "--custom",
-        action="store_true"
+        "--dump",
+        type=str,
+        default="dump",
+        help="dump folder path",
     )
+    parser.add_argument("--custom", action="store_true")
     args = parser.parse_args()
 
     AutoT = AutoTest(args.eval_data)
@@ -53,22 +56,30 @@ if __name__ == '__main__':
         result["pass_1"] = AutoT.cal_metrics_pass_at_k(model_list, 1, 5)
         result["pass_3"] = AutoT.cal_metrics_pass_at_k(model_list, 3, 5)
         result["pass_5"] = AutoT.cal_metrics_pass_at_k(model_list, 5, 5)
-    save_path = PathUtil().test_result_data("pass_at_k_result", 'json')
+    save_path = PathUtil().test_result_data("pass_at_k_result", "json")
 
     if os.path.exists(save_path):
-        with open(save_path, encoding='utf-8') as file:
+        with open(save_path, encoding="utf-8") as file:
             ori_data = json.load(file)
 
         if args.greedy == 1:
             if "pass_1_greedy" in ori_data:
-                ori_data["pass_1_greedy"][args.source_file_name] = result["pass_1_greedy"][args.source_file_name]
+                ori_data["pass_1_greedy"][args.source_file_name] = result[
+                    "pass_1_greedy"
+                ][args.source_file_name]
             else:
                 ori_data["pass_1_greedy"] = result["pass_1_greedy"]
         else:
             if "pass_1" in ori_data:
-                ori_data["pass_1"][args.source_file_name] = result["pass_1"][args.source_file_name]
-                ori_data["pass_3"][args.source_file_name] = result["pass_3"][args.source_file_name]
-                ori_data["pass_5"][args.source_file_name] = result["pass_5"][args.source_file_name]
+                ori_data["pass_1"][args.source_file_name] = result["pass_1"][
+                    args.source_file_name
+                ]
+                ori_data["pass_3"][args.source_file_name] = result["pass_3"][
+                    args.source_file_name
+                ]
+                ori_data["pass_5"][args.source_file_name] = result["pass_5"][
+                    args.source_file_name
+                ]
             else:
                 ori_data["pass_1"] = result["pass_1"]
                 ori_data["pass_3"] = result["pass_3"]
@@ -76,9 +87,9 @@ if __name__ == '__main__':
     else:
         ori_data = result
 
-    with open(save_path, 'w') as f:
+    with open(save_path, "w") as f:
         json.dump(ori_data, f, indent=4, sort_keys=True)
-    
+
     print("-" * 20, "before agg")
     PathUtil().update_flags(args.eval_file)
     PathUtil().update_acc()
