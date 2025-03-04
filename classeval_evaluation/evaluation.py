@@ -92,4 +92,4 @@ if __name__ == "__main__":
 
     print("-" * 20, "before agg")
     PathUtil().update_flags(args.eval_file)
-    PathUtil().update_acc()
+    PathUtil().update_acc(dump=args.dump)
