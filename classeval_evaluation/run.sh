@@ -3,12 +3,12 @@
 eval_file=$1
 dump=$2
 
-echo "\n\nfile_name: $file_name, dump: $dump\n\n"
+echo "\n\nfile_name: $eval_file, dump: $dump\n\n"
 
 folder_path="../output/model_output"
 
 source ../proj_env/bin/activate
-mv $dump "../"
+mv "$dump" "../"
 mkdir -p $folder_path
 
 mv "../${dump}/cache/${eval_file}.jsonl" "${folder_path}"

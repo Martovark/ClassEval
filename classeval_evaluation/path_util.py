@@ -112,7 +112,7 @@ class PathUtil:
     @staticmethod
     def update_acc(dump="dump"):
         all_metrics_path = Path(ROOT_DIR) / dump / "all_metrics.jsonl"
-        results_path = Path(OUTPUT_DIR) / dump / "pass_at_k_result.json"
+        results_path = Path(OUTPUT_DIR) / "result" / "pass_at_k_result.json"
 
         all_metrics = load_jsonl(all_metrics_path)
         results = load_json(results_path)
